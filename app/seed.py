@@ -12,6 +12,8 @@ with app.app_context():
     NailService.query.delete()
     MakeupService.query.delete()
     Appointment.query.delete()
+    # CartItem.quantity.delete()
+    
     
     product1 = Product(
         name='Lip gloss',
@@ -56,6 +58,9 @@ with app.app_context():
         phone_number = '0790902345'
         
     )
+    
+    
+
 
     db.session.add_all([user1, user2])
     
@@ -91,3 +96,19 @@ with app.app_context():
 
 
     db.session.commit()
+    
+    
+    
+    # cart_item1 = CartItem(quantity=2, user=user1, product=product1, price=product1.price)
+    # cart_item2 = CartItem(quantity=1, user=user1, product=product2, price=product2.price)
+
+    # # Adding some cart items for user2
+    # cart_item3 = CartItem(quantity=3, user=user2, product=product3, price=product3.price)
+    # cart_item4 = CartItem(quantity=1, user=user2, product=product4, price=product4.price)
+
+    # db.session.add_all([cart_item1, cart_item2, cart_item3, cart_item4])
+    # db.session.commit()
+if __name__ == "__main__":
+    app.run(debug=True)
+    
+    

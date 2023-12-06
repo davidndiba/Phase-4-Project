@@ -14,6 +14,8 @@ class User(db.Model):
     
     reviews = db.relationship('Review', back_populates='user')
     appointments = db.relationship('Appointment', back_populates='user')
+    # cart_items = db.relationship('CartItem', back_populates='user')
+    Product = db.relationship("Product", back_populates="user")
     
     def to_dict(self):
         return {
@@ -23,6 +25,7 @@ class User(db.Model):
             'phone_number': self.phone_number,
             'appointments': [appointment.to_dict() for appointment in self.appointments],
             'reviews': [review.to_dict() for review in self.reviews],
+            'product': [Product.to_dict() for product in self.Product],
         }
     
 class Review(db.Model):
@@ -166,3 +169,34 @@ class Appointment(db.Model):
             'extra_information': self.extra_information,
             'user_id': self.user_id,
         }
+        
+# class CartItem(db.Model):
+#     __tablename__ = 'cart_items'
+    
+#     id = db.Column(db.Integer, primary_key=True)
+#     quantity = db.Column(db.Integer, default=1)
+#     price = db.Column(db.Float, nullable=False)  
+    
+#     user_id = db.Column(
+#         db.Integer,
+#         db.ForeignKey('users.id', name='fk_cart_item_user_id'),
+#         nullable=False
+#     )
+    
+#     product_id = db.Column(
+#         db.Integer,
+#         db.ForeignKey('products.id', name='fk_cart_item_product_id'),
+#         nullable=False
+#     )
+    
+#     user = db.relationship('User', back_populates='cart_items')
+#     product = db.relationship('Product', back_populates='cart_items')
+    
+#     def to_dict(self):
+#         return {
+#             'id': self.id,
+#             'quantity': self.quantity,
+#             'price': self.price,  
+#             'user_id': self.user_id,
+#             'product_id': self.product_id,
+#         }

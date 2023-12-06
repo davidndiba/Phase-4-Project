@@ -27,6 +27,9 @@ function Navbar({ user, onLogout }) {
           <NavLink to="/reviews">Reviews</NavLink>
         </li>
         <li>
+          <NavLink to="/product">Products</NavLink>
+        </li>
+        <li>
           <NavLink to="/contact">Contact</NavLink>
         </li>
 

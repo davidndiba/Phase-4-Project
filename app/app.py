@@ -145,6 +145,40 @@ class ProductById(Resource):
 
 api.add_resource(ProductById,'/products/<int:id>')
 
+@app.route('/api/cart', methods=['GET'])
+def get_cart():
+    if 'user_id' not in session or not session['user_id']:
+        return jsonify({"error": "User not authenticated"}), 401
+
+    user_id = session['user_id']
+    cart_items = CartItem.query.filter_by(user_id=user_id).all()
+    serialized_cart = [item.to_dict() for item in cart_items]
+    
+    return jsonify(serialized_cart)
+
+# # Add a new route to add items to the cart
+# @app.route('/api/cart/add', methods=['POST'])
+# def add_to_cart():
+#     if 'user_id' not in session or not session['user_id']:
+#         return jsonify({"error": "User not authenticated"}), 401
+
+#     data = request.json
+#     product_id = data.get('productId')
+#     quantity = data.get('quantity', 1)  # Assuming a default quantity of 1 if not provided
+
+#     # Check if the product is already in the cart for the user
+#     existing_item = CartItem.query.filter_by(user_id=session['user_id'], product_id=product_id).first()
+
+#     if existing_item:
+#         # If the item exists, update the quantity
+#         existing_item.quantity += quantity
+#     else:
+#         # If the item doesn't exist, create a new CartItem
+#         new_item = CartItem(user_id=session['user_id'], product_id=product_id, quantity=quantity)
+#         db.session.add(new_item)
+
+#     db.session.commit()
+#     return jsonify({"message": "Item added to cart successfully"})
 
 class Appointments(Resource):
     def get(self):
@@ -183,7 +217,8 @@ class MyAppointments(Resource):
         if user:
             return jsonify(user_serialized)
         
-api.add_resource(MyAppointments, '/my_appointments/<int:id>')        
+api.add_resource(MyAppointments, '/my_appointments/<int:id>')     
+
 
 
 if __name__ == '__main__':
