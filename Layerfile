@@ -1,0 +1,11 @@
+# Layerfile
+
+build:
+  steps:
+    - name: Install Dependencies
+      command: npm install
+
+deploy:
+  steps:
+    - name: Build and Deploy
+      command: npm start
